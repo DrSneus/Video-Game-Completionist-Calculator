@@ -9,7 +9,7 @@ To Do:
 -Determine a game's How Long To Beat id given its name
 
 Done:
--Create an average game's difficulty score
+-Create an average game's difficulty score <- Might be changed to a different system
 -Can gather Steam achievement information given a game's id
 -Can gather How Long To Beat information given a game's id
 
