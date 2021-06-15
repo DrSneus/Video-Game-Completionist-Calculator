@@ -1,40 +1,60 @@
 # Samuel Neus
-# Functions used for calculating a game's "difficulty" for completion
+# Functions used for calculating a game's statistics
 
 # Functions
 
 # Requires the dictionary from findLength() and the list from findPercentages()
-# Outputs a score out of 100
-def calculator(lengthDict, percentList):
-    score = 0
-    
+# Outputs a rating for the lengths and overall difficulty
+def tableMaker(lengthDict, percentList):
     # Checks if there is a valid time
     if lengthDict == None:
         return None
-    elif lengthDict["Completionist"]["Time"] == None:
+
+    for category in lengthDict:
+        # Adjusts the time value
+        if lengthDict[category]["Format"] == "Minutes":
+            time = lengthDict[category]["Time"] / 60
+        else:
+            time = lengthDict[category]["Time"]
+
+        # Determines a length score
+        if time <= 4:
+            lengthScore = 1
+        elif time <= 15:
+            lengthScore = 2
+        elif time <= 45:
+            lengthScore = 3
+        elif time <= 100:
+            lengthScore = 4
+        else:
+            lengthScore = 5
+
+        # Prints results
+        print(f"{category} Length = {lengthScore}")
+
+    # Checks if there are valid achievements
+    if percentList == None:
         return None
 
-    # Adjusts the time value
-    if lengthDict["Completionist"]["Format"] == "Hours":
-        score = lengthDict["Completionist"]["Time"] * 60
-    else:
-        score = lengthDict["Completionist"]["Time"]
+    # Determines a difficulty score
+    difficultyScore = 0
+    for achiev in percentList:
+        if achiev > 60:
+            difficultyScore += 1
+        elif achiev > 30:
+            difficultyScore += 2
+        elif achiev > 10:
+            difficultyScore += 3
+        elif achiev > 3:
+            difficultyScore += 4
+        else:
+            difficultyScore += 5
+    difficultyScore = int(difficultyScore / len(percentList))
+    completionistScore = (difficultyScore + (1.5*lengthScore))/2
 
-    # Adds in the score for achievements
-    if percentList != None:
-        multiplier = 100 / (sum(percentList) / len(percentList))
+    if completionistScore > 5:
+        completionistScore = 5
 
-        # 30000 was chosen after testing to match up with desired scores for certain games
-        score = int((100 * score * multiplier) / 30000)
-    else:
-        # 7500 was chosen to account for the difference in games without achievements
-        score = int((100 * score) / 7500)
-
-     
-    
-
-    # Some games can go way over 100, but the calculator gets more difficult to use at higher levels
-    if score > 100: 
-        return 101
-    else:
-        return int(score)
+    # Prints results
+    print(f"\nAchievement Difficulty = {difficultyScore}")
+    print(f"\nCompletionist Difficulty = {completionistScore}")

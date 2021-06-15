@@ -11,17 +11,15 @@ import calculator
 # Given a game's app id, will find and return a dictionary of different average completion lengths
 def main():
     # Defining variables
-    game = "Borderlands the Pre-Sequel"
+    game = "Game Name"
 
     # Data finding
-    percentList = steamscraper.findPercents(250900)
-    lengthDict = hltbscraper.findLength(21248)
-
-    # Calculating
-    score = calculator.calculator(lengthDict, percentList)
+    percentList = steamscraper.findPercents(567640)
+    lengthDict = hltbscraper.findLength(44389)
 
     # Results
-    print(f"The game \"{game}\" has a difficulty rating of {score}")
+    print(f"{game}")
+    calculator.tableMaker(lengthDict, percentList)
 
 # Main Execution
 if __name__ == '__main__':
