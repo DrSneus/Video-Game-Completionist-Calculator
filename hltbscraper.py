@@ -29,9 +29,9 @@ def findLength(id):
         if category:
             if y: # If there is data for this category
                 if y.group(2): # The ASCII for a 0.5 value
-                    data[category]["Time"] = y.group(1) + ".5"
+                    data[category]["Time"] = float(y.group(1) + ".5")
                 else:
-                    data[category]["Time"] = y.group(1)
+                    data[category]["Time"] = float(y.group(1))
 
                 data[category]["Format"] = y.group(3) # Hours or Minutes
             category = None # Resets category
