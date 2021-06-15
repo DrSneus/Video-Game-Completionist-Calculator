@@ -4,12 +4,12 @@
 This project is a calculator that determines how difficult a game is to fully complete.
 
 To Do:
--Create an advanced table of information
+-Add other relevant information in text, not statistics
 -Determine a game's Steam id given its name
 -Determine a game's How Long To Beat id given its name
 
 Done:
--Create an average game's difficulty score <- Might be changed to a different system
+-Create an advanced table of information
 -Can gather Steam achievement information given a game's id
 -Can gather How Long To Beat information given a game's id
 
