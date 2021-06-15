@@ -16,7 +16,7 @@ def findPercents(id):
         # Searches for the percentage of players who've completed certain achievements
         x = re.search('achievePercent">([0-9]+\.[0-9])', lines.lstrip())
         if x:
-            data.append(x.group(1)) # Appends the percentage of players to the list
+            data.append(float(x.group(1))) # Appends the percentage of players to the list
 
     # Determines whether the end result is valid
     if len(data) == 0:
