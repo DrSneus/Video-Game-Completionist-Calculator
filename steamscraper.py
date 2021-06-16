@@ -26,8 +26,10 @@ def findSteamAppID(game):
         appID = int(gameList[closeMatch[0]])
     else:
         appID = None
-    return appID
 
+    
+
+    return appID
 
 # Given a Steam game's app id, will find and return a list of achievement percentages
 def findPercents(id):
@@ -43,12 +45,17 @@ def findPercents(id):
 
     # Determines whether the end result is valid
     if len(data) == 0:
-        print("This title does not have any Steam achievements.")
         return None
 
     return data
 
 # Main Execution
 if __name__ == '__main__':
-    appID = findSteamAppID("Armello")
-    findPercents(appID)
+    appID = findSteamAppID("Borderlands 2")
+
+    if appID:
+        data = findPercents(appID)
+        if not data:
+            print("This title does not have any Steam achievements.")
+    else:
+        print("No ID found")
