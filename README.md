@@ -7,6 +7,7 @@ To Do:
 -Add other relevant information in text, not statistics
 -Determine a game's Steam id given its name
 -Determine a game's How Long To Beat id given its name
+-Add functionality for Co-op games
 
 Done:
 -Create an advanced table of information
