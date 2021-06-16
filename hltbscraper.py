@@ -4,8 +4,40 @@
 import requests
 import re
 import os
+import difflib
+from googlesearch import search
 
 # Functions
+def findHLTBAppID(game):
+    # Parameters for searches
+    headers = {'user-agent': 'hltb-{}'.format(os.environ.get('USER', 'user'))}
+    query = "HowLongToBeat" + game
+    
+    # Google search
+    gameList = {}
+    for searches in search(query, tld="com", num=10, stop=10, pause=2):
+        # Find the search results with a HLTB url
+        hltbURL = re.search("https://howlongtobeat.com/.*id=(\d*)", searches)
+
+        if hltbURL:
+            response = requests.get(hltbURL.string, headers=headers)
+
+            # Searches for app ids on the site
+            for lines in response.text.split('\n'):
+                x = re.search("\'gameName\': \'(.*)\',\s*\'pageType\'", lines)
+                if x: # Creates a dictionary of games and their HLTB ids
+                    gameList[x.group(1)] = hltbURL.group(1)
+
+    # Finds the closest match to the user input
+    closeMatch = difflib.get_close_matches(game, gameList, 1)
+
+    # If no match was found return None, else return the appID of the closest
+    if len(closeMatch) != 0:
+        appID = int(gameList[closeMatch[0]])
+    else:
+        appID = None
+    return appID
+
 
 # Given a game's app id, will find and return a dictionary of different average completion lengths
 def findLength(id):
@@ -36,13 +68,12 @@ def findLength(id):
                 data[category]["Format"] = y.group(3) # Hours or Minutes
             category = None # Resets category
 
-    # Determines whether the end result is valid
-    if len(data) == 0:
-        print("This title does not exist.")
-        return None
-
     return data
 
 # Main Execution
 if __name__ == '__main__':
-    findLength(21248)
+    appID = findHLTBAppID("Borderlands 2")
+    if appID:
+        findLength(appID)
+    else:
+        print("No ID found")
