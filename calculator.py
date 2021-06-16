@@ -10,6 +10,7 @@ def tableMaker(lengthDict, percentList):
     if lengthDict == None:
         return None
 
+    completionistLengthScore = None
     for category in lengthDict:
         # Adjusts the time value
         if lengthDict[category]["Format"] == "Minutes":
@@ -18,19 +19,24 @@ def tableMaker(lengthDict, percentList):
             time = lengthDict[category]["Time"]
 
         # Determines a length score
-        if time <= 4:
-            lengthScore = 1
-        elif time <= 15:
-            lengthScore = 2
-        elif time <= 45:
-            lengthScore = 3
-        elif time <= 100:
-            lengthScore = 4
-        else:
-            lengthScore = 5
+        if time:
+            if time <= 4:
+                lengthScore = 1
+            elif time <= 15:
+                lengthScore = 2
+            elif time <= 45:
+                lengthScore = 3
+            elif time <= 100:
+                lengthScore = 4
+            else:
+                lengthScore = 5
 
-        # Prints results
-        print(f"{category} Length = {lengthScore}")
+            # Saves the Completionist category data
+            if category == "Completionist":
+                completionistLengthScore = lengthScore
+
+            # Prints results
+            print(f"{category} Length Score = {lengthScore}")
 
     # Checks if there are valid achievements
     if percentList == None:
@@ -49,12 +55,16 @@ def tableMaker(lengthDict, percentList):
             difficultyScore += 4
         else:
             difficultyScore += 5
+
     difficultyScore = int(difficultyScore / len(percentList))
-    completionistScore = (difficultyScore + (1.5*lengthScore))/2
-
-    if completionistScore > 5:
-        completionistScore = 5
-
-    # Prints results
     print(f"\nAchievement Difficulty = {difficultyScore}")
-    print(f"\nCompletionist Difficulty = {completionistScore}")
+
+    if completionistLengthScore:
+        completionistScore = (difficultyScore + (1.5*completionistLengthScore))/2
+
+        if completionistScore > 5:
+            completionistScore = 5
+
+        print(f"\nCompletionist Difficulty = {completionistScore}")
+    
+    
