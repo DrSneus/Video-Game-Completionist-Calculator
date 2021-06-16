@@ -38,9 +38,10 @@ def findHLTBAppID(game):
         appID = None
     return appID
 
-
 # Given a game's app id, will find and return a dictionary of different average completion lengths
 def findLength(id):
+    categories = ["Main Story", "Main + Extras", "Completionists", "All PlayStyles", "Co-Op", "Competitive"]
+
     # Downloads text
     headers = {'user-agent': 'hltb-{}'.format(os.environ.get('USER', 'user'))}
     response = requests.get(f"https://howlongtobeat.com/game?id={id}", headers=headers).text.split('\n')
@@ -50,29 +51,35 @@ def findLength(id):
 
     for lines in response[1:]:
         # Searches for the categories of completion, and respective times
-        x = re.search('<h5>(.*)</h5>', lines)
-        y = re.search('<div>(\d*)(&#189;)? (\w*)\s*</div>', lines)
+        x = re.search('<td>(\w.*)</', lines.strip())
 
-        if x: # Finds a category of playstyle: "Main Story", "Completionist", etc
-            category = x.group(1).strip()
-            data[category] = {"Time": None, "Format": None}
+        # If one of the desired fields is found
+        if x and x.group(1) in categories:
+            category = x.group(1)
+            data[category] = {"Time": None, "Format": None} # Creates a dictionary entry
             continue
+        elif category: # The immediate entry after the category is its average time of completion
+            # All formats are similar to the form: 50h 20m
+            y = re.search("(\d*)(\w) (\d*)?", x.group(1))
+            time = 0
 
-        if category:
-            if y: # If there is data for this category
-                if y.group(2): # The ASCII for a 0.5 value
-                    data[category]["Time"] = float(y.group(1) + ".5")
-                else:
-                    data[category]["Time"] = float(y.group(1))
+            if y.group(2) == "h": # If the first value is in hours
+                time += int(y.group(1)) * 60
+                if y.group(3): # If there is a subscript of minutes
+                    time += int(y.group(3))
 
-                data[category]["Format"] = y.group(3) # Hours or Minutes
+            else: # If the only value is in minutes
+                time += int(y.group(1))
+
+            data[category] = time # Add to the dictionary
+
             category = None # Resets category
 
     return data
 
 # Main Execution
 if __name__ == '__main__':
-    appID = findHLTBAppID("Borderlands 2")
+    appID = findHLTBAppID("Minecraft")
     if appID:
         findLength(appID)
     else:
