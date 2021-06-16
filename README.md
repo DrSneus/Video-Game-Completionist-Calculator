@@ -5,7 +5,6 @@ This project is a calculator that determines how difficult a game is to fully co
 
 To Do:
 -Add other relevant information in text, not statistics
--Add functionality for Co-op games
 -Create a python library file
 
 Done:
@@ -14,6 +13,7 @@ Done:
 -Create an advanced table of information
 -Can gather Steam achievement information given a game's id
 -Can gather How Long To Beat information given a game's id
+-Add functionality for Co-op games
 
 Stretch:
 -Determine an average score for a user's game collection
