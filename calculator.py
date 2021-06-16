@@ -13,10 +13,7 @@ def tableMaker(lengthDict, percentList):
     completionistLengthScore = None
     for category in lengthDict:
         # Adjusts the time value
-        if lengthDict[category]["Format"] == "Minutes":
-            time = lengthDict[category]["Time"] / 60
-        else:
-            time = lengthDict[category]["Time"]
+        time = lengthDict[category] / 60
 
         # Determines a length score
         if time:
