@@ -4,6 +4,56 @@
 # Functions
 
 # Requires the dictionary from findLength() and the list from findPercentages()
+# Outputs a further description of the results gathered
+# Helpful for a more advanced understanding
+def descriptionMaker(lengthDict, percentList):
+    categories = ["Main Story", "Main + Extras", "Completionists", "All PlayStyles", "Co-Op", "Competitive"]
+    print("\n")
+
+    # Checks if there is a valid time
+    if lengthDict == None:
+        return None
+
+    # Calculating and printing length-statistics
+    if "Completionists" in lengthDict:
+        time = (lengthDict["Completionists"] - lengthDict["Main Story"])
+
+        # Time formatting
+        if time < 60:
+            format = "minutes"
+        elif time == 60:
+            time /= 60
+            format = "hour"
+        else:
+            time /= 60
+            format = "hours"
+        
+        print(f"The time difference between an normal playthrough and a completionist one is {int(time)} {format}")
+
+    # Calculating and printing difficulty-statistics
+    if percentList == None:
+        print("There are no achievements for this title on Steam")
+        return None
+    
+    hardAchievements = [percents for percents in percentList if percents < 3]
+    imposAchievements = [percents for percents in percentList if percents < 1]
+
+    # Finds the challenging achievements
+    if len(hardAchievements) == 0:
+        print("There are no achievements considered challenging for this title")
+    elif len(hardAchievements) <= 5:
+        print("There are few achievements considered challenging for this title")
+    else:
+        print(f"There are at least {len(hardAchievements)} achievements that are considered challenging")
+    
+    # Finds the really challenging achievements
+    if len(imposAchievements) == 1:
+        print("Of those, there is 1 achievement considered extremely difficult")
+    elif len(imposAchievements) > 1:
+        print(f"Of those, there are {len(imposAchievements)} achievements considered extremely difficult")
+    
+    
+# Requires the dictionary from findLength() and the list from findPercentages()
 # Outputs a rating for the lengths and overall difficulty
 def tableMaker(lengthDict, percentList):
     # Checks if there is a valid time
