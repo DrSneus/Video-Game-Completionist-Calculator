@@ -34,10 +34,12 @@ def findHLTBAppID(game):
 
     # If no match was found return None, else return the appID of the closest
     if len(closeMatch) != 0:
-        appID = int(gameList[closeMatch[0]])
+        data = []
+        data.append(closeMatch)
+        data.append(int(gameList[closeMatch[0]]))
+        return data
     else:
-        appID = None
-    return appID
+        return None
 
 # Given a game's app id, will find and return a dictionary of different average completion lengths
 def findLength(id):
