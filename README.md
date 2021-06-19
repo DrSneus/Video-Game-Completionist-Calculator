@@ -4,8 +4,10 @@
 This project is a calculator that determines how difficult a game is to fully complete.
 
 To Do:
+-Make the project fully exportable
+
+Ongoing:
 -Add other relevant information in text, not statistics
--Create a python library file
 
 Done:
 -Determine a game's Steam id given its name
