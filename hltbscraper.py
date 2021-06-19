@@ -30,13 +30,13 @@ def findHLTBAppID(game):
                     gameList[x.group(1)] = hltbURL.group(1)
 
     # Finds the closest match to the user input
-    closeMatch = difflib.get_close_matches(game, gameList, 1)
+    closeMatch = difflib.get_close_matches(game, gameList, 1)[0]
 
     # If no match was found return None, else return the appID of the closest
     if len(closeMatch) != 0:
         data = []
         data.append(closeMatch)
-        data.append(int(gameList[closeMatch[0]]))
+        data.append(int(gameList[closeMatch]))
         return data
     else:
         return None
