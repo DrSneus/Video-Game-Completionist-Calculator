@@ -8,7 +8,6 @@
 # Helpful for a more advanced understanding
 def descriptionMaker(lengthDict, percentList):
     categories = ["Main Story", "Main + Extras", "Completionists", "All PlayStyles", "Co-Op", "Competitive"]
-    print("\n")
 
     # Checks if there is a valid time
     if lengthDict == None:
@@ -61,6 +60,8 @@ def tableMaker(lengthDict, percentList):
         return None
 
     completionistLengthScore = None
+    print("Game Length")
+    print("-----------")
     for category in lengthDict:
         # Adjusts the time value
         time = lengthDict[category] / 60
@@ -84,6 +85,7 @@ def tableMaker(lengthDict, percentList):
 
             # Prints results
             print(f"{category} Length Score = {lengthScore}")
+    print("\n")
 
     # Checks if there are valid achievements
     if percentList == None:
@@ -91,6 +93,8 @@ def tableMaker(lengthDict, percentList):
 
     # Determines a difficulty score
     difficultyScore = 0
+    print("Game Difficulty")
+    print("---------------")
     for achiev in percentList:
         if achiev > 60:
             difficultyScore += 1
@@ -104,7 +108,7 @@ def tableMaker(lengthDict, percentList):
             difficultyScore += 5
 
     difficultyScore = int(difficultyScore / len(percentList))
-    print(f"\nAchievement Difficulty = {difficultyScore}")
+    print(f"Achievement Difficulty = {difficultyScore}")
 
     if completionistLengthScore:
         completionistScore = (difficultyScore + (1.5*completionistLengthScore))/2
@@ -113,5 +117,5 @@ def tableMaker(lengthDict, percentList):
             completionistScore = 5
 
         print(f"\nCompletionist Difficulty = {completionistScore}")
-    
+    print("\n")
     
