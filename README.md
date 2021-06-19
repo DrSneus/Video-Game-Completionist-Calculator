@@ -2,6 +2,13 @@
 ## By Samuel Neus
 
 This project is a calculator that determines how difficult a game is to fully complete.
+To do this, the user can provide a game's title and—after confirmation from the program—
+data from the game will be gathered and calculated.
+
+Notes:
+The project functions best when given the names of games on Steam, as data regarding
+achievements is taken directly from the Steam store page. For best results please use
+titles of games on Steam with achievements.
 
 To Do:
 * Make the project fully downloadable
