@@ -18,19 +18,18 @@ def main():
         hltbInfo = hltbscraper.findHLTBAppID(game)
         steamID = steamscraper.findSteamAppID(game)
 
-        if not hltbID:
+        if not hltbInfo:
             print(f"The title \'{game}\' could not be found on How Long To Beat")
             print("Please provide the game's title again\n")
             game = input()
         else:
-            print(f"The title found was {hltbInfo[0]}")
+            print(f"The title found was \'{hltbInfo[0]}\'")
             print("If this is correct, press Enter. Otherwise please provide the game's title again.")
             game = input()
             if game != "":
                 hltbID = None
             else:
                 hltbID = hltbInfo[1]
-
         
 
     # Data finding
