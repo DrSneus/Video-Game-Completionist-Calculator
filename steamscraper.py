@@ -19,15 +19,13 @@ def findSteamAppID(game):
             gameList[x.group(2)] = x.group(1)
 
     # Finds the closest match to the user input
-    closeMatch = difflib.get_close_matches(game, gameList, 1)
+    closeMatch = difflib.get_close_matches(game, gameList, 1, .8)
 
     # If no match was found return None, else return the appID of the closest
     if len(closeMatch) != 0:
         appID = int(gameList[closeMatch[0]])
     else:
         appID = None
-
-    
 
     return appID
 
