@@ -51,7 +51,6 @@ def descriptionMaker(lengthDict, percentList):
     elif len(imposAchievements) > 1:
         print(f"Of those, there are {len(imposAchievements)} achievements considered extremely difficult")
     
-    
 # Requires the dictionary from findLength() and the list from findPercentages()
 # Outputs a rating for the lengths and overall difficulty
 def tableMaker(lengthDict, percentList):
@@ -80,7 +79,7 @@ def tableMaker(lengthDict, percentList):
                 lengthScore = 5
 
             # Saves the Completionist category data
-            if category == "Completionist":
+            if category == "Completionists":
                 completionistLengthScore = lengthScore
 
             # Prints results
@@ -116,6 +115,6 @@ def tableMaker(lengthDict, percentList):
         if completionistScore > 5:
             completionistScore = 5
 
-        print(f"\nCompletionist Difficulty = {completionistScore}")
+        print(f"Completionist Difficulty = {completionistScore}")
     print("\n")
     
