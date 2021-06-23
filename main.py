@@ -17,9 +17,10 @@ def main():
         # Game finding
         hltbInfo = hltbscraper.findHLTBAppID(game)
 
+        print("\n")
         if not hltbInfo:
             print(f"The title \'{game}\' could not be found on How Long To Beat")
-            print("Please provide the game's title again\n")
+            print("Please provide the game's title again")
             game = input()
         else:
             print(f"The title found was \'{hltbInfo[0]}\'")
