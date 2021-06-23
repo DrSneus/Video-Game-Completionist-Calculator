@@ -6,13 +6,12 @@
 # Requires the dictionary from findLength() and the list from findPercentages()
 # Outputs a further description of the results gathered
 # Helpful for a more advanced understanding
-def descriptionMaker(lengthDict, percentList):
-    categories = ["Main Story", "Main + Extras", "Completionists", "All PlayStyles", "Co-Op", "Competitive"]
-
+def descriptionMaker(lengthDict, percentList, isGUI = False):
     # Checks if there is a valid time
     if lengthDict == None:
         return None
 
+    display = ""
     # Calculating and printing length-statistics
     if "Completionists" in lengthDict:
         time = (lengthDict["Completionists"] - lengthDict["Main Story"])
@@ -26,41 +25,53 @@ def descriptionMaker(lengthDict, percentList):
         else:
             time /= 60
             format = "hours"
+        display = '\n'.join([display, f"The time difference between an normal playthrough and a completionist one is {int(time)} {format}"])
         
-        print(f"The time difference between an normal playthrough and a completionist one is {int(time)} {format}")
-
     # Calculating and printing difficulty-statistics
     if percentList == None:
-        print("There are no achievements for this title on Steam")
-        return None
+        display = '\n'.join([display, "There are no achievements for this title on Steam"])
+
+        if not isGUI:
+            print(display)
+            return None
+        else:
+            return display
     
     hardAchievements = [percents for percents in percentList if percents < 3]
     imposAchievements = [percents for percents in percentList if percents < 1]
 
     # Finds the challenging achievements
     if len(hardAchievements) == 0:
-        print("There are no achievements considered challenging for this title")
+        display = '\n'.join([display, "There are no achievements considered challenging for this title"])
     elif len(hardAchievements) <= 5:
-        print("There are few achievements considered challenging for this title")
+        display = '\n'.join([display, "There are few achievements considered challenging for this title"])
     else:
-        print(f"There are at least {len(hardAchievements)} achievements that are considered challenging")
+        display = '\n'.join([display, f"There are at least {len(hardAchievements)} achievements that are considered challenging"])
     
     # Finds the really challenging achievements
     if len(imposAchievements) == 1:
-        print("Of those, there is 1 achievement considered extremely difficult")
+        display = '\n'.join([display, "Of those, there is 1 achievement considered extremely difficult"])
     elif len(imposAchievements) > 1:
-        print(f"Of those, there are {len(imposAchievements)} achievements considered extremely difficult")
-    
+        display = '\n'.join([display, f"Of those, there are {len(imposAchievements)} achievements considered extremely difficult"])
+
+    if not isGUI:
+        print(display)
+    else:
+        return display
+
 # Requires the dictionary from findLength() and the list from findPercentages()
 # Outputs a rating for the lengths and overall difficulty
-def tableMaker(lengthDict, percentList):
+def tableMaker(lengthDict, percentList, isGUI = False):
     # Checks if there is a valid time
     if lengthDict == None:
         return None
 
+    display = ""
+
+    # Time scores
     completionistLengthScore = None
-    print("Game Length")
-    print("-----------")
+    display = '\n'.join([display, "Game Length"])
+    display = '\n'.join([display, "-----------"])
     for category in lengthDict:
         # Adjusts the time value
         time = lengthDict[category] / 60
@@ -83,17 +94,21 @@ def tableMaker(lengthDict, percentList):
                 completionistLengthScore = lengthScore
 
             # Prints results
-            print(f"{category} Length Score = {lengthScore}")
-    print("\n")
+            display = '\n'.join([display, f"{category} Length Score = {lengthScore}"])
+    display = '\n'.join([display, "\n"])
 
     # Checks if there are valid achievements
     if percentList == None:
-        return None
+        if not isGUI:
+            print(display)
+            return None
+        else:
+            return display
 
     # Determines a difficulty score
     difficultyScore = 0
-    print("Game Difficulty")
-    print("---------------")
+    display = '\n'.join([display, "Game Difficulty"])
+    display = '\n'.join([display, "---------------"])
     for achiev in percentList:
         if achiev > 60:
             difficultyScore += 1
@@ -107,7 +122,7 @@ def tableMaker(lengthDict, percentList):
             difficultyScore += 5
 
     difficultyScore = int(difficultyScore / len(percentList))
-    print(f"Achievement Difficulty = {difficultyScore}")
+    display = '\n'.join([display, f"Achievement Difficulty = {difficultyScore}"])
 
     if completionistLengthScore:
         completionistScore = (difficultyScore + (1.5*completionistLengthScore))/2
@@ -115,6 +130,11 @@ def tableMaker(lengthDict, percentList):
         if completionistScore > 5:
             completionistScore = 5
 
-        print(f"Completionist Difficulty = {completionistScore}")
-    print("\n")
-    
+        display = '\n'.join([display, f"Completionist Difficulty = {completionistScore}"])
+    display = '\n'.join([display, "\n"])
+
+    # Printing
+    if not isGUI:
+        print(display)
+    else:
+        return display
