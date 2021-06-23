@@ -11,8 +11,9 @@ import PySimpleGUI as gui
 gui.theme('Dark Blue 3')
 
 layout = [  [gui.Text(size=(None, 1), key='textOut1')],
+            [gui.Multiline(no_scrollbar=True, size=(None, 20), key='stats', visible=False)],
             [gui.Text(size=(None, 1), key='textOut2')],
-            [gui.Input(key='gamename')],
+            [gui.Input(key='gamename', do_not_clear=False)],
             [gui.Button('Enter'), gui.Button('Quit')] ]
 
 # Create the Window
@@ -58,7 +59,7 @@ while True:
                 break
 
             # Confirm title
-            elif event == 'Enter' and values['gamename'] == game:
+            elif event == 'Enter' and values['gamename'] == "":
                 # ID finding
                 hltbID = hltbInfo[1]
                 steamID = steamscraper.findSteamAppID(hltbInfo[0])
@@ -77,8 +78,11 @@ while True:
         percentList = steamscraper.findPercents(steamID)
 
         # Results
-        window['textOut1'].update(calculator.tableMaker(lengthDict, percentList, True))
-        window['textOut2'].update(calculator.descriptionMaker(lengthDict, percentList, True))
+        display = calculator.tableMaker(lengthDict, percentList, True)
+        display = "".join([display, calculator.descriptionMaker(lengthDict, percentList, True)])
+        window['stats'].update(display)
+        window['stats'].update(visible=True)
+        window['textOut2'].update("Click Enter to begin searching another game")
 
         # Resetting
         hltbID = None
@@ -90,4 +94,5 @@ while True:
 
         # Reset
         else:
+            window['stats'].update(visible=False)
             skipInput = True
