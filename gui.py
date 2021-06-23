@@ -24,6 +24,7 @@ window['textOut2'].update("Please write the name of the game to check:")
 hltbID = None
 skipInput = False
 while True:
+    # Some results require inputs later, so it needs to be possible to skip the initial prompt
     if not skipInput:
         # Events
         event, values = window.read()
@@ -31,6 +32,8 @@ while True:
         # Quit
         if event == gui.WIN_CLOSED or event == 'Quit':
             break
+    else:
+        skipInput = False
 
     # Finding game
     if event == 'Enter' and values['gamename'] != "" and not hltbID:
@@ -67,16 +70,24 @@ while True:
                 skipInput = True
                 continue
 
+    # Getting game data
     elif event == 'Enter' and hltbID:
         # Data finding
         lengthDict = hltbscraper.findLength(hltbID)
         percentList = steamscraper.findPercents(steamID)
 
         # Results
-        calculator.tableMaker(lengthDict, percentList)
-        calculator.descriptionMaker(lengthDict, percentList)
+        window['textOut1'].update(calculator.tableMaker(lengthDict, percentList, True))
+        window['textOut2'].update(calculator.descriptionMaker(lengthDict, percentList, True))
 
         # Resetting
         hltbID = None
-        window['textOut1'].update("")
-        window['textOut2'].update("Please write the name of the game to check:")
+        event, values = window.read()
+
+        # Quit
+        if event == gui.WIN_CLOSED or event == 'Quit':
+            break
+
+        # Reset
+        else:
+            skipInput = True
