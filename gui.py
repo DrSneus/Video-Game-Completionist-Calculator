@@ -11,10 +11,10 @@ import PySimpleGUI as gui
 gui.theme('Dark Blue 3')
 
 layout = [  [gui.Text(size=(None, 1), key='textOut1')],
-            [gui.Multiline(no_scrollbar=True, size=(None, 20), key='stats', visible=False)],
             [gui.Text(size=(None, 1), key='textOut2')],
             [gui.Input(key='gamename', do_not_clear=False)],
-            [gui.Button('Enter'), gui.Button('Quit')] ]
+            [gui.Button('Enter'), gui.Button('Quit')],
+            [gui.Multiline(size=(None, 24), key='stats', disabled=True, background_color='Light Slate Gray', text_color='White')]]
 
 # Create the Window
 window = gui.Window("Completionist Calculator", layout, finalize=True)
@@ -81,8 +81,7 @@ while True:
         display = calculator.tableMaker(lengthDict, percentList, True)
         display = "".join([display, calculator.descriptionMaker(lengthDict, percentList, True)])
         window['stats'].update(display)
-        window['stats'].update(visible=True)
-        window['textOut2'].update("Click Enter to begin searching another game")
+        window['textOut2'].update("Please write the name of the game to check:")
 
         # Resetting
         hltbID = None
@@ -94,5 +93,6 @@ while True:
 
         # Reset
         else:
-            window['stats'].update(visible=False)
+            window['textOut1'].update("Welcome to the Completionist Calculator!")
+            window['stats'].update("")
             skipInput = True
