@@ -27,3 +27,4 @@ Done:
 * Can gather Steam achievement information given a game's id
 * Can gather How Long To Beat information given a game's id
 * Add functionality for Co-op games
+* GUI has been made for easier use
