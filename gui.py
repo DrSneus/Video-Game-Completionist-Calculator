@@ -39,6 +39,8 @@ while True:
     # Finding game
     if event == 'Enter' and values['gamename'] != "" and not hltbID:
         # Game finding
+        window['textOut2'].update("Loading...")
+        window.finalize()
         game = values['gamename']
         hltbInfo = hltbscraper.findHLTBAppID(game)
 
@@ -60,7 +62,11 @@ while True:
 
             # Confirm title
             elif event == 'Enter' and values['gamename'] == "":
-                # ID finding
+                # Display loading
+                window['textOut2'].update("Loading...")
+                window.finalize()
+
+                # ID finding                
                 hltbID = hltbInfo[1]
                 steamID = steamscraper.findSteamAppID(hltbInfo[0])
                 skipInput = True
