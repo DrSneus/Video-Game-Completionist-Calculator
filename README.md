@@ -6,9 +6,8 @@ To do this, the user can provide a game's title and—after confirmation from th
 data from the game will be gathered and calculated.
 
 Notes:
-The project functions best when given the names of games on Steam, as data regarding
-achievements is taken directly from the Steam store page. For best results please use
-titles of games on Steam with achievements.
+For best results please use titles of games on Steam with achievements,
+as data regarding achievements is taken directly from the Steam store page.
 
 To Do:
 * Make the project fully downloadable
@@ -27,4 +26,4 @@ Done:
 * Can gather Steam achievement information given a game's id
 * Can gather How Long To Beat information given a game's id
 * Add functionality for Co-op games
-* GUI has been made for easier use
+* A GUI has been made for easier use
