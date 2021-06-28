@@ -10,11 +10,12 @@ import PySimpleGUI as gui
 # The GUI Template
 gui.theme('Dark Blue 3')
 
-layout = [  [gui.Text(size=(None, 1), key='textOut1')],
-            [gui.Text(size=(None, 1), key='textOut2')],
-            [gui.Input(key='gamename', do_not_clear=False)],
-            [gui.Button('Enter'), gui.Button('Quit')],
-            [gui.Multiline(size=(None, 24), key='stats', disabled=True, background_color='Light Slate Gray', text_color='White')]]
+layout = [[gui.Text(size=(None, 1), key='textOut1')],
+          [gui.Text(size=(None, 1), key='textOut2')],
+          [gui.Input(key='game_name', do_not_clear=False)],
+          [gui.Button('Enter'), gui.Button('Quit')],
+          [gui.Multiline(size=(None, 24), key='stats', disabled=True, background_color='Light Slate Gray',
+                         text_color='White')]]
 
 # Create the Window
 window = gui.Window("Completionist Calculator", layout, finalize=True)
@@ -37,11 +38,11 @@ while True:
         skipInput = False
 
     # Finding game
-    if event == 'Enter' and values['gamename'] != "" and not hltbID:
+    if event == 'Enter' and values['game_name'] != "" and not hltbID:
         # Game finding
         window['textOut2'].update("Loading...")
         window.finalize()
-        game = values['gamename']
+        game = values['game_name']
         hltbInfo = hltbscraper.findHLTBAppID(game)
 
         # Game not found
@@ -53,15 +54,16 @@ while True:
         # Game found
         else:
             window['textOut1'].update(f"The title found was \'{hltbInfo[0]}\'")
-            window['textOut2'].update("If this is correct, press Enter. Otherwise please provide the game's title again.")
-            
+            window['textOut2'].update(
+                "If this is correct, press Enter. Otherwise please provide the game's title again.")
+
             event, values = window.read()
             # Quit
             if event == gui.WIN_CLOSED or event == 'Quit':
                 break
 
             # Confirm title
-            elif event == 'Enter' and values['gamename'] == "":
+            elif event == 'Enter' and values['game_name'] == "":
                 # Display loading
                 window['textOut2'].update("Loading...")
                 window.finalize()

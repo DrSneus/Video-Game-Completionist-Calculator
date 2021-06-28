@@ -5,6 +5,7 @@ import requests
 import re
 import difflib
 
+
 # Functions
 def findSteamAppID(game):
     # Gets a web response from the Steam store page
@@ -15,7 +16,7 @@ def findSteamAppID(game):
     gameList = {}
     for lines in response.text.split('\n'):
         x = re.search("<a href=\"https://store.steampowered.com/app/(.*)/(.*)/.*\"", lines)
-        if x: # Creates a dictionary of games and their steam ids
+        if x:  # Creates a dictionary of games and their steam ids
             gameList[x.group(2)] = x.group(1)
 
     # Finds the closest match to the user input
@@ -29,6 +30,7 @@ def findSteamAppID(game):
 
     return appID
 
+
 # Given a Steam game's app id, will find and return a list of achievement percentages
 def findPercents(id):
     # Downloads text
@@ -39,13 +41,14 @@ def findPercents(id):
         # Searches for the percentage of players who've completed certain achievements
         x = re.search('achievePercent">([0-9]+\.[0-9])', lines.lstrip())
         if x:
-            data.append(float(x.group(1))) # Appends the percentage of players to the list
+            data.append(float(x.group(1)))  # Appends the percentage of players to the list
 
     # Determines whether the end result is valid
     if len(data) == 0:
         return None
 
     return data
+
 
 # Main Execution
 if __name__ == '__main__':

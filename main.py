@@ -6,13 +6,14 @@ import hltbscraper
 import steamscraper
 import calculator
 
+
 # Functions
 
 # Given a game's app id, will find and return a dictionary of different average completion lengths
 def main():
     hltbID = None
-    print("Please provide the name of a game:")
-    game = input()
+    game = str(input("Please provide the name of a game: "))
+    print()
     while not hltbID:
         # Game finding
         hltbInfo = hltbscraper.findHLTBAppID(game)
@@ -40,6 +41,7 @@ def main():
     # Results
     calculator.tableMaker(lengthDict, percentList)
     calculator.descriptionMaker(lengthDict, percentList)
+
 
 # Main Execution
 if __name__ == '__main__':
