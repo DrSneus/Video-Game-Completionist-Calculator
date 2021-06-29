@@ -61,7 +61,7 @@ def findTags(id):
             for tags in x.group().split('},{'):
                 # Gathers the game's tagid and name
                 stats = re.search('\"tagid\":(\d*),\"name\":\"(.+?)\"', tags)
-                data[stats.group(1)] = stats.group(2)
+                data[stats.group(2)] = stats.group(1)
 
     # Determines whether the end result is valid
     if len(data) == 0:
