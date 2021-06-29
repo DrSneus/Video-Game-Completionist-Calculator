@@ -14,7 +14,6 @@ def userTagList(gamesDict):
 
     # Finds the tags for each game
     tagList = {}
-    print("This user likes games with the following tags:\n")
     for appid in gamesDict:
         print(f"Searching tags for {gamesDict[appid]}")
         newTags = steamscraper.findTags(appid)
@@ -26,6 +25,9 @@ def userTagList(gamesDict):
                     tagList[tag] = 1 # Otherwise, add the tag to the list
         
     tagList = dict(sorted(tagList.items(), key=lambda tag: tag[1]))
+
+    # Printing results
+    print("This user likes games with the following tags:\n")
     for i in range(0, 10):
         print(f"{tagList.popitem()[0]}")
 
