@@ -25,8 +25,8 @@ def main():
             game = input()
         else:
             print(f"The title found was \'{hltbInfo[0]}\'")
-            print("If this is correct, press Enter. Otherwise please provide the game's title again.")
-            game = input()
+            game = str(input("If this is correct, press Enter. Otherwise please provide the game's title again: "))
+            print()
             if game != "":
                 hltbID = None
             else:

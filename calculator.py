@@ -6,6 +6,9 @@
 # Requires the dictionary from findLength() and the list from findPercentages()
 # Outputs a further description of the results gathered
 # Helpful for a more advanced understanding
+import restart
+
+
 def descriptionMaker(lengthDict, percentList, isGUI=False):
     # Checks if there is a valid time
     if lengthDict is None:
@@ -32,6 +35,7 @@ def descriptionMaker(lengthDict, percentList, isGUI=False):
     # Calculating and printing difficulty-statistics
     if percentList is None:
         display = '\n'.join([display, "There are no achievements for this title on Steam!\n"])
+        restart.restart()
 
         if not isGUI:
             print(display)
@@ -51,12 +55,14 @@ def descriptionMaker(lengthDict, percentList, isGUI=False):
         display = '\n'.join([display, f"There are at least {len(hard_Achievements)} achievements that are considered "
                                       f"challenging"])
 
-        # Finds the really challenging achievements
+    # Finds the really challenging achievements
     if len(impossible_Achievements) == 1:
         display = '\n'.join([display, "Of those, there is 1 achievement considered extremely difficult"])
     elif len(impossible_Achievements) > 1:
         display = '\n'.join([display, f"Of those, there are {len(impossible_Achievements)} achievements considered "
                                       f"extremely difficult"])
+
+    restart.restart()
 
     if not isGUI:
         print(display)

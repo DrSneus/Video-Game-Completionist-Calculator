@@ -7,12 +7,16 @@ import os
 import difflib
 from googlesearch import search
 
+
 # Functions
+import restart
+
+
 def findHLTBAppID(game):
     # Parameters for searches
     headers = {'user-agent': 'hltb-{}'.format(os.environ.get('USER', 'user'))}
     query = "HowLongToBeat" + game
-    
+
     # Google search
     gameList = {}
     for searches in search(query, num=10, stop=10, pause=2):
@@ -20,13 +24,13 @@ def findHLTBAppID(game):
         hltbURL = re.search("https://howlongtobeat.com/.*id=(\d*)", searches)
 
         if hltbURL:
-            
+
             response = requests.get(hltbURL.string, headers=headers)
 
             # Searches for app ids on the site
             for lines in response.text.split('\n'):
                 x = re.search("\'gameName\': \'(.*)\',\s*\'pageType\'", lines)
-                if x: # Creates a dictionary of games and their HLTB ids
+                if x:  # Creates a dictionary of games and their HLTB ids
                     gameList[x.group(1)] = hltbURL.group(1)
 
     # Finds the closest match to the user input
@@ -34,12 +38,11 @@ def findHLTBAppID(game):
 
     # If no match was found return None, else return the appID of the closest
     if len(closeMatch) != 0:
-        data = []
-        data.append(closeMatch[0])
-        data.append(int(gameList[closeMatch[0]]))
+        data = [closeMatch[0], int(gameList[closeMatch[0]])]
         return data
     else:
         return None
+
 
 # Given a game's app id, will find and return a dictionary of different average completion lengths
 def findLength(id):
@@ -59,26 +62,27 @@ def findLength(id):
         # If one of the desired fields is found
         if x and x.group(1) in categories:
             category = x.group(1)
-            data[category] = {"Time": None, "Format": None} # Creates a dictionary entry
+            data[category] = {"Time": None, "Format": None}  # Creates a dictionary entry
             continue
-        elif category: # The immediate entry after the category is its average time of completion
+        elif category:  # The immediate entry after the category is its average time of completion
             # All formats are similar to the form: 50h 20m
             y = re.search("(\d*)(\w) (\d*)?", x.group(1))
             time = 0
 
-            if y.group(2) == "h": # If the first value is in hours
+            if y.group(2) == "h":  # If the first value is in hours
                 time += int(y.group(1)) * 60
-                if y.group(3): # If there is a subscript of minutes
+                if y.group(3):  # If there is a subscript of minutes
                     time += int(y.group(3))
 
-            else: # If the only value is in minutes
+            else:  # If the only value is in minutes
                 time += int(y.group(1))
 
-            data[category] = time # Add to the dictionary
+            data[category] = time  # Add to the dictionary
 
-            category = None # Resets category
+            category = None  # Resets category
 
     return data
+
 
 # Main Execution
 if __name__ == '__main__':
@@ -87,3 +91,4 @@ if __name__ == '__main__':
         findLength(appID)
     else:
         print("No ID found")
+        restart.restart()
