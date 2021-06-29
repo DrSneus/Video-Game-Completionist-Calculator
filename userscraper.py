@@ -33,6 +33,5 @@ def findGames(id):
 
 # Main Execution
 if __name__ == '__main__':
-    userID = 'doctorsneus'
-    data = findGames(userID)
+    data = findGames('doctorsneus')
     print(data)
