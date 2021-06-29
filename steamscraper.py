@@ -47,12 +47,36 @@ def findPercents(id):
 
     return data
 
+# Given a Steam game's app id, will find and return its tags
+def findTags(id):
+    # Downloads text
+    response = requests.get(f"https://store.steampowered.com/app/{id}").text.split('\n')
+
+    data = {}
+    for lines in response[1:]:
+        # Searches for the tags of a product
+        x = re.search('\[{\"tagid\"(.*)}\]', lines.lstrip())
+
+        if x:
+            for tags in x.group().split('},{'):
+                # Gathers the game's tagid and name
+                stats = re.search('\"tagid\":(\d*),\"name\":\"(.+?)\"', tags)
+                data[stats.group(1)] = stats.group(2)
+
+    # Determines whether the end result is valid
+    if len(data) == 0:
+        return None
+
+    return data
+
 # Main Execution
 if __name__ == '__main__':
     appID = findSteamAppID("Borderlands 2")
 
     if appID:
-        data = findPercents(appID)
+        #data = findPercents(appID)
+        data = findTags(appID)
+        print(data)
         if not data:
             print("This title does not have any Steam achievements.")
     else:
