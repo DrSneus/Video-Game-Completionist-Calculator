@@ -29,6 +29,8 @@ def userTagList(gamesDict):
     for i in range(0, 10):
         print(f"{tagList.popitem()[0]}")
 
+    return tagList
+
 if __name__ == '__main__':
     data = userscraper.findGames('doctorsneus')
     userTagList(data)
