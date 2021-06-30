@@ -2,9 +2,12 @@
 # Combines the calculator_gui with the usercalculator functions for a complete calculator
 
 # Libraries
+from tkinter.constants import X
+import usercalculator
 import calculator
 import hltbscraper
 import steamscraper
+import userscraper
 import PySimpleGUI as gui
 
 # The GUI Templates
@@ -19,11 +22,11 @@ userLayout = [  [gui.Text(size=(None, 1), key='uOut1')],
             [gui.Text(size=(None, 1), key='uOut2')],
             [gui.Input(key='uname', do_not_clear=False)],
             [gui.Button('Enter'), gui.Button('Menu')],
-            [gui.Multiline(size=(None, 24), key='ustats', disabled=True, background_color='Light Slate Gray', text_color='White')]]
+            [gui.Multiline(size=(None, 24), key='ustats', disabled=True, background_color='Light Slate Gray', text_color='White', reroute_stdout=True, auto_refresh=True, autoscroll=True)]]
 
 gameLayout = [  [gui.Text(size=(None, 1), key='gOut1')],
             [gui.Text(size=(None, 1), key='gOut2')],
-            [gui.Input(key='gamename', do_not_clear=False)],
+            [gui.Input(key='gname', do_not_clear=False)],
             [gui.Button('Enter'), gui.Button('Menu')],
             [gui.Multiline(size=(None, 24), key='gstats', disabled=True, background_color='Light Slate Gray', text_color='White')]]
 
@@ -74,16 +77,22 @@ while True:
             window['gOut1'].update("Welcome to the Completionist Calculator!")
             window['gOut2'].update("Please write the name of the game to check:")
             window['gstats'].update("")
+        elif state == 'User':
+            user = None
+
+            window['uOut1'].update("Welcome to the Completionist Calculator!")
+            window['uOut2'].update("Please write the name of a public Steam profile to check:")
+            window['ustats'].update("")
         continue
 
     # Game state options
     if state == 'Game':
         # Finding game
-        if event == 'Enter' and values['gamename'] != "" and not hltbID:
+        if event == 'Enter' and values['gname'] != "" and not hltbID:
             # Game finding
             window['gOut2'].update("Loading...")
             window.finalize()
-            game = values['gamename']
+            game = values['gname']
             hltbInfo = hltbscraper.findHLTBAppID(game)
 
             # Game not found
@@ -101,7 +110,7 @@ while True:
                 event, values = window.read()
 
                 # Game confirmation
-                if event == 'Enter' and values['gamename'] == "":
+                if event == 'Enter' and values['gname'] == "":
                     # Display loading
                     window['gOut2'].update("Loading...")
                     window.finalize()
@@ -122,8 +131,9 @@ while True:
             # Results
             display = calculator.tableMaker(lengthDict, percentList, True)
             display = "".join([display, calculator.descriptionMaker(lengthDict, percentList, True)])
-            window['gstats'].update(display)
+            window['gOut1'].update(f"Game: \'{hltbInfo[0]}\'")
             window['gOut2'].update("Please write the name of the game to check:")
+            window['gstats'].update(display)
 
             # Resetting
             hltbID = None
@@ -131,4 +141,57 @@ while True:
 
             window['gOut1'].update("Welcome to the Completionist Calculator!")
             window['gstats'].update("")
+            skipInput = True
+
+    # User state options
+    elif state == 'User':
+        # Finding a user
+        if event == 'Enter0' and values['uname'] != "" and not user:
+            # User finding
+            window['uOut2'].update("Loading...")
+            window.finalize()
+            user = values['uname']
+            userGames = userscraper.findGames(user)
+
+            # User not found, or user's profile is private
+            if not userGames:
+                window['uOut1'].update(f"No data was found for \'{user}\'.")
+                window['uOut2'].update("Please be sure that their profile is public and resubmit their name:\n")
+                user = None
+                continue
+
+            # User found
+            else:
+                window['uOut1'].update(f"User \'{user}\' was found")
+                window['uOut2'].update("If this is correct, press Enter. Otherwise please provide the username again.")
+                
+                # Confirmation event
+                event, values = window.read()
+
+                # User confirmation
+                if event == 'Enter0' and values['uname'] == "":
+                    # Display loading
+                    window['uOut1'].update("Loading...")
+                    window['uOut2'].update("This may take a while depending on the user's game library")
+                    window.finalize()
+
+                skipInput = True
+                continue
+
+        # Displaying user data
+        elif event == 'Enter0' and user:
+            # Tag finding and display
+            userTags = usercalculator.getTagList(userGames)
+            window['ustats'].update("")
+
+            usercalculator.displayTagList(userTags)
+            window['uOut1'].update(f"User: \'{user}\'")
+            window['uOut2'].update("Please write the name of a public Steam profile to check:")
+
+            # Resetting
+            user = None
+            event, values = window.read()
+
+            window['uOut1'].update("Welcome to the Completionist Calculator!")
+            window['ustats'].update("")
             skipInput = True
