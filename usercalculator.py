@@ -6,8 +6,8 @@ import steamscraper
 import userscraper
 
 # Requires the list of games from findGames()
-# Outputs a description of the user's favorite game tags
-def userTagList(gamesDict):
+# Gets a list of tags
+def getTagList(gamesDict):
     # Checks if there is a valid dictionary
     if gamesDict == None:
         return None
@@ -23,16 +23,17 @@ def userTagList(gamesDict):
                     tagList[tag] += 1
                 else:
                     tagList[tag] = 1 # Otherwise, add the tag to the list
-        
-    tagList = dict(sorted(tagList.items(), key=lambda tag: tag[1]))
+    return dict(sorted(tagList.items(), key=lambda tag: tag[1]))
 
-    # Printing results
-    print("This user likes games with the following tags:\n")
-    for i in range(0, 10):
-        print(f"{tagList.popitem()[0]}")
-
-    return tagList
+# Requires the list of tags from getTagList()
+# Prints results
+def displayTagList(tagList):
+    if tagList:
+        print("This user likes games with the following tags:\n")
+        for i in range(0, 10):
+            print(f"{tagList.popitem()[0]}")
 
 if __name__ == '__main__':
     data = userscraper.findGames('doctorsneus')
-    userTagList(data)
+    tagList = getTagList(data)
+    displayTagList(tagList)
