@@ -1,5 +1,5 @@
 # Samuel Neus
-# Combines the calculator_gui with the usercalculator functions for a complete calculator
+# Main Program
 
 # Libraries
 import usercalculator
