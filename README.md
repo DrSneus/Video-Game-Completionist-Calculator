@@ -14,7 +14,7 @@ git clone https://github.com/DrSneus/Video-Game-Completionist-Calculator.git
 pip install -r requirements.txt
 
 3. Run the project:
-python calculator_gui.py
+python full_gui.py
 
 # Notes:
 For best results please use titles of games on Steam with achievements,
@@ -39,3 +39,4 @@ Done:
 * Can gather How Long To Beat information given a game's id
 * Add functionality for Co-op games
 * A GUI has been made for easier use
+* Determines a user's favorite game tags
