@@ -3,27 +3,18 @@
 
 This project is a calculator that determines how difficult a game is to fully complete.
 To do this, the user can provide a game's title and—after confirmation from the program—
-data from the game will be gathered and calculated.
+data from the game will be gathered and calculated. The program also has an alternative
+feature to examine a user's game library and find their favorite game types.
 
 # Installation
-Note: To install and run, please have both Python and pip installed on your system.
-1. Clone my repository:
-git clone https://github.com/DrSneus/Video-Game-Completionist-Calculator.git
-
-2. Install the required dependencies:
-pip install -r requirements.txt
-
-3. Run the project:
-python full_gui.py
+1. Download and extract the ZIP file
+2. Run completionist_calculator.exe
 
 # Notes:
 For best results please use titles of games on Steam with achievements,
 as data regarding achievements is taken directly from the Steam store page.
 
 # Checklist
-To Do:
-* Make a program executable
-
 Ongoing:
 * Add other relevant information in text, not statistics
 
@@ -40,3 +31,4 @@ Done:
 * Add functionality for Co-op games
 * A GUI has been made for easier use
 * Determines a user's favorite game tags
+* Made an executable
