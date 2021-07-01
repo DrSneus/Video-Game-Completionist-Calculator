@@ -28,7 +28,7 @@ gameLayout = [  [gui.Text(size=(None, 1), key='gOut1')],
             [gui.Text(size=(None, 1), key='gOut2')],
             [gui.Input(key='gname', do_not_clear=False)],
             [gui.Button('Enter'), gui.Button('Menu')],
-            [gui.Multiline(size=(None, 24), key='gstats', disabled=True, background_color='Light Slate Gray', text_color='White')]]
+            [gui.Multiline(size=(None, 24), key='gstats', disabled=True, background_color='Light Slate Gray', text_color='White', reroute_stdout=True)]]
 
 # Sets the layout
 layout = [[gui.Column(menuLayout, key='MenuL'), gui.Column(gameLayout, visible=False, key='GameL'), gui.Column(userLayout, visible=False, key='UserL')]]
@@ -129,11 +129,10 @@ while True:
             percentList = steamscraper.findPercents(steamID)
 
             # Results
-            display = calculator.tableMaker(lengthDict, percentList, True)
-            display = "".join([display, calculator.descriptionMaker(lengthDict, percentList, True)])
+            calculator.tableMaker(lengthDict, percentList)
+            calculator.descriptionMaker(lengthDict, percentList)
             window['gOut1'].update(f"Game: \'{hltbInfo[0]}\'")
             window['gOut2'].update("Please write the name of the game to check:")
-            window['gstats'].update(display)
 
             # Resetting
             hltbID = None
