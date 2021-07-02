@@ -24,6 +24,7 @@ def findGames(id):
                     # Gathers the game's steamid and name
                     stats = re.search('\"appid\":(\d*),\"name\":\"(.+?)\"', games)
                     data[stats.group(1)] = re.sub(r'\\u(.){4}', '', stats.group(2)) # Removes Unicodes
+            break # Data already found, no need to keep searching
 
     # Determines whether the end result is valid
     if len(data) == 0:
@@ -34,4 +35,4 @@ def findGames(id):
 # Main Execution
 if __name__ == '__main__':
     data = findGames('doctorsneus')
-    print(data)
+    #print(data)
