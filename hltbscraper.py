@@ -15,12 +15,11 @@ def findHLTBAppID(game):
     
     # Google search
     gameList = {}
-    for searches in search(query, num=10, stop=10, pause=2):
+    for searches in search(query, num=10, stop=10):
         # Find the search results with a HLTB url
         hltbURL = re.search("https://howlongtobeat.com/.*id=(\d*)", searches)
 
         if hltbURL:
-            
             response = requests.get(hltbURL.string, headers=headers)
 
             # Searches for app ids on the site
@@ -28,6 +27,7 @@ def findHLTBAppID(game):
                 x = re.search("\'gameName\': \'(.*)\',\s*\'pageType\'", lines)
                 if x: # Creates a dictionary of games and their HLTB ids
                     gameList[x.group(1)] = hltbURL.group(1)
+                    break
 
     # Finds the closest match to the user input
     closeMatch = difflib.get_close_matches(game, gameList, 1)
@@ -82,8 +82,9 @@ def findLength(id):
 
 # Main Execution
 if __name__ == '__main__':
-    appID = findHLTBAppID("Minecraft")
+    appID = findHLTBAppID("Borderlands 2")
     if appID:
-        findLength(appID)
+        data = findLength(appID[1])
+        print(data)
     else:
         print("No ID found")
