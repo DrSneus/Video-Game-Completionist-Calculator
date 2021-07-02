@@ -4,3 +4,4 @@ tempCodeRunnerFile.python
 build/
 dist/
 *.spec
+Artifacts/
