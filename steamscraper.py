@@ -6,6 +6,7 @@ import re
 import difflib
 
 # Functions
+# Finds a Steam game's app id
 def findSteamAppID(game):
     # Gets a web response from the Steam store page
     gameSearch = game.replace(" ", "+")
