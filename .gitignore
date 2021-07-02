@@ -4,4 +4,5 @@ tempCodeRunnerFile.python
 build/
 dist/
 *.spec
+ignoreable/
 Artifacts/
