@@ -18,9 +18,15 @@ as data regarding achievements is taken directly from the Steam store page.
 Ongoing:
 * Add other relevant information in text, not statistics
 
+Current and Potential Issues:
+* Executable startup can be slow on new computers
+* Executable does not work on Macs
+* User search takes a long time with a big library
+* Determining an average score for a collection would take an incredibly long time
+
 Stretch:
 * Determine an average score for a user's game collection
-* Recommend a game based on a user's game collection
+* Recommend an unplayed game in a user's library based on their most played games
 
 Done:
 * Determine a game's Steam id given its name
