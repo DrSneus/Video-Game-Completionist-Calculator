@@ -62,6 +62,7 @@ def findTags(id):
                 # Gathers the game's tagid and name
                 stats = re.search('\"tagid\":(\d*),\"name\":\"(.+?)\"', tags)
                 data[stats.group(2)] = stats.group(1)
+            break
 
     # Determines whether the end result is valid
     if len(data) == 0:
@@ -74,10 +75,7 @@ if __name__ == '__main__':
     appID = findSteamAppID("Borderlands 2")
 
     if appID:
-        #data = findPercents(appID)
         data = findTags(appID)
         print(data)
-        if not data:
-            print("This title does not have any Steam achievements.")
     else:
         print("No ID found")
