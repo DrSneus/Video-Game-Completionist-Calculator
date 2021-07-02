@@ -5,8 +5,9 @@ import requests
 import re
 
 # Functions
-
-def findGames(id):
+# Finds a user's list of played titles given their Steam ID
+# Alternatively, can find a user's list of unplayed untitles
+def findGames(id, altMode=False):
     # Downloads text
     response = requests.get(f"https://steamcommunity.com/id/{id}/games/?tab=all&sort=playtime").text.split('\n')
 
@@ -20,10 +21,24 @@ def findGames(id):
                 # Find games that have logged hours
                 hours = re.search('\"hours_forever\":\"(.*)\"', games)
 
-                if hours:
-                    # Gathers the game's steamid and name
-                    stats = re.search('\"appid\":(\d*),\"name\":\"(.+?)\"', games)
-                    data[stats.group(1)] = re.sub(r'\\u(.){4}', '', stats.group(2)) # Removes Unicodes
+                # Default, finds games with logged hours
+                if not altMode:
+                    if hours:
+                        # Gathers the game's steamid and name
+                        stats = re.search('\"appid\":(\d*),\"name\":\"(.+?)\"', games)
+                        data[stats.group(1)] = re.sub(r'\\u(.){4}', '', stats.group(2)) # Removes Unicodes
+                    else:
+                        break
+
+                # Finds games without logged hours
+                else:
+                    if not hours:
+                        # Gathers the game's steamid and name
+                        stats = re.search('\"appid\":(\d*),\"name\":\"(.+?)\"', games)
+                        data[stats.group(1)] = re.sub(r'\\u(.){4}', '', stats.group(2)) # Removes Unicodes
+             
+
+
             break # Data already found, no need to keep searching
 
     # Determines whether the end result is valid
@@ -35,4 +50,4 @@ def findGames(id):
 # Main Execution
 if __name__ == '__main__':
     data = findGames('doctorsneus')
-    #print(data)
+    print(data)
