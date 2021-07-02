@@ -8,6 +8,7 @@ import difflib
 from googlesearch import search
 
 # Functions
+# Finds a game's HLTB app id
 def findHLTBAppID(game):
     # Parameters for searches
     headers = {'user-agent': 'hltb-{}'.format(os.environ.get('USER', 'user'))}
