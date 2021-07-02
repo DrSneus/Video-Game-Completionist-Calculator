@@ -1,3 +1,6 @@
 __pycache__
 .google-cookie
 tempCodeRunnerFile.python
+build/
+dist/
+*.spec
