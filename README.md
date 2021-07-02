@@ -8,7 +8,7 @@ feature to examine a user's game library and find their favorite game types.
 
 # Installation
 1. Download and extract the ZIP file
-2. Run completionist_calculator.exe
+2. Run Video_Game_Completionist_Calculator.exe
 
 # Notes:
 For best results please use titles of games on Steam with achievements,
