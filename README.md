@@ -22,6 +22,7 @@ Current and Potential Issues:
 * Executable startup can be slow on new computers
 * Executable does not work on Macs
 * User search takes a long time with a big library
+* Some user's don't seem to have an id, may need to obtain it a different way
 * Determining an average score for a collection would take an incredibly long time
 
 Stretch:
