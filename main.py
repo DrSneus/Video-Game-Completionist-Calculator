@@ -172,9 +172,10 @@ while True:
         elif event == 'Enter' and user:
             # Tag finding and display
             userTags = usercalculator.getTagList(userGames)
+            userPopTags = {k: userTags[k] for k in list(userTags)[-10:]}
             window['stats'].update("")
 
-            usercalculator.displayTagList(userTags)
+            usercalculator.displayTagList(userPopTags)
             window['Out1'].update(f"User: \'{user}\'")
             window['Out2'].update("Please write the name of a public Steam profile to check:")
 
