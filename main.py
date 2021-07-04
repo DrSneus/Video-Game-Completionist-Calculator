@@ -176,13 +176,49 @@ while True:
             window['stats'].update("")
 
             usercalculator.displayTagList(userPopTags)
-            window['Out1'].update(f"User: \'{user}\'")
-            window['Out2'].update("Please write the name of a public Steam profile to check:")
+            window['Out1'].update(f"Current User: \'{user}\'. To check another profile, write another username")
+            window['Out2'].update("If you want a recommendation for this user, simply click \'Enter\'")
 
-            # Resetting
-            user = None
             event, values = window.read()
 
+            # Changes the mode to find a recommendation
+            if event == 'Enter' and values['input'] == '':
+                state = 'Recommendation'
+                suggestions = None
+
+                window['Out1'].update(f"Searching through \'{user}\'s\' unplayed games")
+                window['Out1'].update("Loading...")
+                window['stats'].update("")
+
+            # Resets User mode
+            else:
+                user = None
+                window['Out1'].update("Welcome to the Completionist Calculator!")
+                window['stats'].update("")
+
+            skipInput = True
+
+    # Recommendation state options
+    elif state == 'Recommendation':
+        # If no suggestions have been gathered, they will be obtained
+        if not suggestions:
+            # Finds a user's unplayed games
+            unplayedGames = userscraper.findGames(user, True)
+
+            # Finds a list of suggested games for a user
+            suggestions = usercalculator.suggestGame({k: userTags[k] for k in list(userTags)[-10:]}, unplayedGames)
+
+        window['Out1'].update(f"Please press \'Enter\' to get a new suggestion. ")
+        window['stats'].update("")
+        window['stats'].update(f"The suggested game for \'{user}\' is {suggestions.popitem()[0]}")
+        window['Out2'].update("Otherwise, type in a new user to check:")
+        event, values = window.read()
+
+        # Resets the user settings
+        if event != 'Enter' or values['input'] != '':
+            user = None
+            suggestions = None
             window['Out1'].update("Welcome to the Completionist Calculator!")
             window['stats'].update("")
-            skipInput = True
+            state = 'User'
+        skipInput = True
