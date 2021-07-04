@@ -14,6 +14,9 @@ feature to examine a user's game library and find their favorite game types.
 For best results please use titles of games on Steam with achievements,
 as data regarding achievements is taken directly from the Steam store page.
 
+For the user searches, it is important that the user's game collection is
+not private, and that they have enabled a Custom URL for their profile.
+
 # Checklist
 Ongoing:
 * Add other relevant information in text, not statistics
@@ -22,7 +25,6 @@ Current and Potential Issues:
 * Executable startup can be slow on new computers
 * Executable does not work on Macs
 * User search takes a long time with a big library
-* Some user's don't seem to have an id, may need to obtain it a different way
 * Recommendation system can recommend DLCs, this is not ideal
 * Determining an average score for a collection would take an incredibly long time
 
