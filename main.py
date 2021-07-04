@@ -146,7 +146,7 @@ while True:
             # User not found, or user's profile is private
             if not userGames:
                 window['Out1'].update(f"No data was found for \'{user}\'.")
-                window['Out2'].update("Please be sure that their profile is public and resubmit their name:\n")
+                window['Out2'].update("Please be sure that their profile is public, and they have a Custom URL:\n")
                 user = None
                 continue
 
@@ -187,7 +187,7 @@ while True:
                 suggestions = None
 
                 window['Out1'].update(f"Searching through \'{user}\'s\' unplayed games")
-                window['Out1'].update("Loading...")
+                window['Out2'].update("Loading...")
                 window['stats'].update("")
 
             # Resets User mode
