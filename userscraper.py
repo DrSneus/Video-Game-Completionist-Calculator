@@ -38,7 +38,6 @@ def findGames(id, altMode=False):
                         data[stats.group(1)] = re.sub(r'\\u(.){4}', '', stats.group(2)) # Removes Unicodes
              
 
-
             break # Data already found, no need to keep searching
 
     # Determines whether the end result is valid
