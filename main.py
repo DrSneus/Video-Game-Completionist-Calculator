@@ -208,29 +208,29 @@ while True:
             # Finds a list of suggested games for a user
             suggestions = usercalculator.suggestGame({k: userTags[k] for k in list(userTags)[-10:]}, unplayedGames)
 
+        # Still suggestions available
+        window['Out1'].update(f"Please press \'Enter\' to get a new suggestion.")
+        window['stats'].update("")
+        window['stats'].update(f"The suggested game for \'{user}\' is {suggestions.popitem()[0]}")
+        window['Out2'].update("Otherwise, type in a new user to check:")
+
+        event, values = window.read()
+
         # No remaining suggestions
-        if len(suggestions) == 0:
+        if not suggestions:
             user = None
             suggestions = None
             state = 'User'
             window['Out1'].update("All recommendations in this user's library have been suggested.")
-            window['Out2'].update("")
+            window['Out2'].update("Please enter another username:")
             window['stats'].update("")
-
-        # Still suggestions available
-        else:
-            window['Out1'].update(f"Please press \'Enter\' to get a new suggestion.")
-            window['stats'].update("")
-            window['stats'].update(f"The suggested game for \'{user}\' is {suggestions.popitem()[0]}")
-            window['Out2'].update("Otherwise, type in a new user to check:")
-
-        event, values = window.read()
 
         # Resets the user settings
-        if event != 'Enter' or values['input'] != '':
+        elif event != 'Enter' or values['input'] != '':
             user = None
             suggestions = None
             window['Out1'].update("Welcome to the Completionist Calculator!")
+            window['Out2'].update("")
             window['stats'].update("")
             state = 'User'
         skipInput = True
