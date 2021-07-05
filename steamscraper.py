@@ -48,16 +48,21 @@ def findPercents(id):
 
     return data
 
-# Given a Steam game's app id, will find and return its tags
-def findTags(id):
+# Given a Steam game's app id, will find and return a response
+def searchGamePage(id):
     # Downloads text
-    response = requests.get(f"https://store.steampowered.com/app/{id}").text.split('\n')
+    response = requests.get(f"https://store.steampowered.com/app/{id}")
 
+    return response
+
+# Given a Steam game store page, will find and return its tags and user reviews
+def findTags(response):
     data = {}
-    for lines in response[1:]:
+    for lines in response.text.split('\n')[1:]:
         # Searches for the tags of a product
-        x = re.search('\[{\"tagid\"(.*)}\]', lines.lstrip())
+        x = re.search('\[{\"tagid\"(.*)}\]', lines.lstrip()) # Checks for tags
         y = re.search('<h1>Downloadable Content</h1><p>', lines.lstrip()) # Checks if the title is a DLC
+
         if y:
             break
         if x:
@@ -73,12 +78,23 @@ def findTags(id):
 
     return data
 
+# Given a Steam game store page, will find and return its rating
+def findReview(response):
+    for lines in response.text.split('\n')[1:]:
+        z = re.search('<span class="game_review_summary (positive)?" itemprop="description">(.*)</span>', lines.lstrip()) # Checks for reviews
+        if z:
+            return(z.group(2))
+
+    return None
+
 # Main Execution
 if __name__ == '__main__':
-    appID = findSteamAppID("Borderlands 2")
+    appID = findSteamAppID("Borderlands")
 
     if appID:
-        data = findTags(appID)
+        response = searchGamePage(appID)
+        #data = findTags(appID)
+        data = findReview(response)
         print(data)
     else:
         print("No ID found")

@@ -44,3 +44,4 @@ Done:
 * Made an executable
 * Basic recommendation system created
 * DLCs removed from the recommendation process
+* User ratings incorporated into recommendation process

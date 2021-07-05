@@ -16,7 +16,7 @@ def getTagList(gamesDict):
     tagList = {}
     for appid in gamesDict:
         print(f"Searching {gamesDict[appid]}")
-        newTags = steamscraper.findTags(appid)
+        newTags = steamscraper.findTags(steamscraper.searchGamePage(appid))
         if newTags:
             for tag in newTags:
                 if tag in tagList: # If the tag is in the list, increment
@@ -36,7 +36,9 @@ def suggestGame(popTagList, unplayedList):
     unplayedSuggestions = {}
     for appid in unplayedList:
         print(f"Searching tags for {unplayedList[appid]}")
-        unplayedTags = steamscraper.findTags(appid)
+        response = steamscraper.searchGamePage(appid)
+        unplayedTags = steamscraper.findTags(response)
+
         if unplayedTags:
             unplayedSuggestions[unplayedList[appid]] = 0 # Initializing game in list
 
@@ -44,9 +46,39 @@ def suggestGame(popTagList, unplayedList):
                 if tag in popTagList: # If the tag is in the list of preferred tags, improve the game's rating
                     unplayedSuggestions[unplayedList[appid]] += 1
 
-            # Removes items that aren't suggested
+            # Removes items that have no overlap with user interests
             if unplayedSuggestions[unplayedList[appid]] == 0:
                 unplayedSuggestions.pop([unplayedSuggestions[appid]])
+
+            # A multiplier for the game depending on how highly rated it is
+            else:
+                # Scaled with the assumption that a Mixed review is a flat multiplier, and positive
+                # and negative multipliers scale equally
+                unplayedRating = steamscraper.findReview(response)
+
+                if unplayedRating:
+                    if unplayedRating.startswith('Overwhelming'):
+                        if unplayedRating.endswith('Positive'):
+                            unplayedSuggestions[unplayedList[appid]] *= 1.40
+                        else:
+                            unplayedSuggestions[unplayedList[appid]] /= 1.40
+
+                    elif unplayedRating.startswith('Very'):
+                        if unplayedRating.endswith('Positive'):
+                            unplayedSuggestions[unplayedList[appid]] *= 1.30
+                        else:
+                            unplayedSuggestions[unplayedList[appid]] /= 1.30
+
+                    elif unplayedRating == 'Positive':
+                        unplayedSuggestions[unplayedList[appid]] *= 1.20
+                    elif unplayedRating == 'Negative':
+                        unplayedSuggestions[unplayedList[appid]] /= 1.20
+
+                    elif unplayedRating.startswith('Mostly'):
+                        if unplayedRating.endswith('Positive'):
+                            unplayedSuggestions[unplayedList[appid]] *= 1.10
+                        else:
+                            unplayedSuggestions[unplayedList[appid]] /= 1.10
 
     return dict(sorted(unplayedSuggestions.items(), key=lambda rank: rank[1]))
 
