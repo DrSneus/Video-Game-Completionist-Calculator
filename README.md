@@ -29,7 +29,6 @@ Current and Potential Issues:
 
 Stretch:
 * Determine an average score for a user's game collection
-* Recommend an unplayed game in a user's library based on their most played games
 
 Done:
 * Determine a game's Steam id given its name
