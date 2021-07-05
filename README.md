@@ -25,7 +25,6 @@ Current and Potential Issues:
 * Executable startup can be slow on new computers
 * Executable does not work on Macs
 * User search takes a long time with a big library
-* Recommendation system can recommend DLCs, this is not ideal
 * Determining an average score for a collection would take an incredibly long time
 
 Stretch:
@@ -43,3 +42,4 @@ Done:
 * Determines a user's favorite game tags
 * Made an executable
 * Basic recommendation system created
+* DLCs removed from the recommendation process

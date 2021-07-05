@@ -57,7 +57,9 @@ def findTags(id):
     for lines in response[1:]:
         # Searches for the tags of a product
         x = re.search('\[{\"tagid\"(.*)}\]', lines.lstrip())
-
+        y = re.search('<h1>Downloadable Content</h1><p>', lines.lstrip()) # Checks if the title is a DLC
+        if y:
+            break
         if x:
             for tags in x.group().split('},{'):
                 # Gathers the game's tagid and name

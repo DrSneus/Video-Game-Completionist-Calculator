@@ -15,7 +15,7 @@ def getTagList(gamesDict):
     # Finds the tags for each game
     tagList = {}
     for appid in gamesDict:
-        print(f"Searching tags for {gamesDict[appid]}")
+        print(f"Searching {gamesDict[appid]}")
         newTags = steamscraper.findTags(appid)
         if newTags:
             for tag in newTags:
@@ -43,6 +43,10 @@ def suggestGame(popTagList, unplayedList):
             for tag in unplayedTags:
                 if tag in popTagList: # If the tag is in the list of preferred tags, improve the game's rating
                     unplayedSuggestions[unplayedList[appid]] += 1
+
+            # Removes items that aren't suggested
+            if unplayedSuggestions[unplayedList[appid]] == 0:
+                unplayedSuggestions.pop([unplayedSuggestions[appid]])
 
     return dict(sorted(unplayedSuggestions.items(), key=lambda rank: rank[1]))
 
