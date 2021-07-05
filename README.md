@@ -19,6 +19,7 @@ not private, and that they have enabled a Custom URL for their profile.
 
 # Checklist
 Ongoing:
+* Refine recommendations to include user ratings
 * Add other relevant information in text, not statistics
 
 Current and Potential Issues:
