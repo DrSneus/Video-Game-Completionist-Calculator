@@ -24,7 +24,7 @@ def descriptionMaker(lengthDict, percentList, isGUI = False):
         else:
             time /= 60
             format = "hours"
-        print(f"The time difference between an normal playthrough and a completionist one is {int(time)} {format}")
+        print(f"The time difference between an ordinary playthrough and a completionist one is {int(time)} {format}")
         
     # Calculating and printing difficulty-statistics
     if percentList == None:
