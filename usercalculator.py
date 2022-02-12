@@ -48,7 +48,7 @@ def suggestGame(popTagList, unplayedList):
 
             # Removes items that have no overlap with user interests
             if unplayedSuggestions[unplayedList[appid]] == 0:
-                unplayedSuggestions.pop([unplayedSuggestions[appid]])
+                unplayedSuggestions.pop(unplayedList[appid])
 
             # A multiplier for the game depending on how highly rated it is
             else:
